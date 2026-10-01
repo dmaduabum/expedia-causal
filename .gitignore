@@ -1,0 +1,12 @@
+# Data (2.8 GB — not committed)
+data/
+
+# Course materials
+STATS571_Final_Project_Guidelines.pdf
+
+# Clutter
+.DS_Store
+.Rhistory
+.Rproj.user/
+__pycache__/
+.ipynb_checkpoints/

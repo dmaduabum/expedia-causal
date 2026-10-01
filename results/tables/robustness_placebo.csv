@@ -1,0 +1,2 @@
+check,estimate,se,p_value,verdict
+Placebo: price_usd,-0.3142,0.4016,0.434,PASS (p > 0.05)

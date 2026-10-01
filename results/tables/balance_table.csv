@@ -1,0 +1,16 @@
+variable,mean_algo,mean_random,smd,abs_smd,imbalanced
+price_usd,147.8085,148.1227,-0.0032,0.0032,""
+prop_starrating,3.2957,3.2105,0.0973,0.0973,""
+prop_review_score,3.8396,3.7596,0.0799,0.0799,""
+prop_brand_bool,0.6632,0.6752,-0.0255,0.0255,""
+prop_location_score1,2.8852,2.7025,0.123,0.123,YES
+promotion_flag,0.2275,0.1783,0.1227,0.1227,YES
+srch_length_of_stay,2.1127,2.0566,0.0348,0.0348,""
+srch_booking_window,31.5896,30.2803,0.0293,0.0293,""
+srch_adults_count,1.9409,1.9511,-0.0117,0.0117,""
+srch_children_count,0.341,0.3449,-0.0055,0.0055,""
+srch_saturday_night_bool,0.5078,0.505,0.0056,0.0056,""
+visitor_hist_adr_usd,11.3237,11.6737,-0.0069,0.0069,""
+no_purchase_history,0.9365,0.9345,0.0084,0.0084,""
+orig_destination_distance,1019.311,969.9194,0.0292,0.0292,""
+dist_missing,0.3145,0.3062,0.018,0.018,""

@@ -1,0 +1,6 @@
+prop_starrating,n,mean_pos_algo,mean_pos_random,diff,direction
+1,3674,20.543,16.524,4.019,Algorithm ranks LOWER (positive diff)
+2,229835,18.693,16.725,1.968,Algorithm ranks LOWER (positive diff)
+3,497427,17.582,16.846,0.736,Algorithm ranks LOWER (positive diff)
+4,389142,15.538,16.053,-0.515,Algorithm ranks HIGHER (negative diff)
+5,101762,14.697,15.718,-1.021,Algorithm ranks HIGHER (negative diff)

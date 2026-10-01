@@ -1,0 +1,3 @@
+estimator,coef_random_bool,se,f_stat_instrument
+Unadjusted,-0.3928,0.0407,91.39
+Covariate-adjusted,-0.4739,0.0468,102.58
