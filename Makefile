@@ -6,7 +6,7 @@
 #   make exposures    competitor-exposure variables
 #   make checks       sampling check (why arms aren't compared) + randomization check
 #   make position     own-position effects
-#   make interference competitor interference
+#   make interference competitor interference (exploratory, not in paper)
 #   make hetero       who depends most on placement
 #   make purge        delete generated data and results (keeps raw zip)
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -20,7 +20,7 @@ SEARCHES   := data/processed/searches.csv
 RANDOM_ARM := data/processed/random_arm.pkl
 EXPOSURES  := data/processed/random_arm_exposures.pkl
 
-all: checks position interference hetero
+all: checks position hetero
 	@echo ""
 	@echo "Pipeline complete. Tables: results/tables/  Figures: results/figures/"
 

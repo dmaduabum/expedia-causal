@@ -29,7 +29,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils import EXPOSURES, TAB_DIR, ols, write_tex_table, nfmt  # noqa: E402
+from utils import EXPOSURES, TAB_DIR, ols, write_tex_table, nfmt, own_controls  # noqa: E402
 
 RELATIONS = [
     ("higher_star", "Higher-star rival above"),
@@ -38,16 +38,6 @@ RELATIONS = [
     ("dominant", "Dominant rival above (as many stars, cheaper)"),
 ]
 OUTCOMES = [("click_bool", "Click"), ("booking_bool", "Booking")]
-
-
-def own_controls(d):
-    star = d["prop_starrating"].astype(float)
-    rev = d["prop_review_score"].astype(float).fillna(0)
-    loc = d["prop_location_score1"].astype(float).fillna(0)
-    return np.column_stack([
-        star, d["star_unknown"], rev, d["review_missing"], d["review_none"],
-        d["log_price_rel"], d["prop_brand_bool"], loc, d["promotion_flag"],
-    ])
 
 
 def main():

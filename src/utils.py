@@ -119,6 +119,17 @@ def ols(y, X, names, se="cluster", clusters=None, absorb=None,
     return out
 
 
+def own_controls(d):
+    """Hotel characteristics used as controls (with missing-value indicators)."""
+    star = d["prop_starrating"].astype(float)
+    rev = d["prop_review_score"].astype(float).fillna(0)
+    loc = d["prop_location_score1"].astype(float).fillna(0)
+    return np.column_stack([
+        star, d["star_unknown"], rev, d["review_missing"], d["review_none"],
+        d["log_price_rel"], d["prop_brand_bool"], loc, d["promotion_flag"],
+    ])
+
+
 def lincom(res: pd.DataFrame, weights: dict):
     """Estimate and SE of a linear combination sum_j w_j * beta_j."""
     w = np.array([weights.get(t, 0.0) for t in res["term"]])
