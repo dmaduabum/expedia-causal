@@ -1,97 +1,87 @@
 # expedia-causal
 
-Causal inference project for STATS 571/671 (Causal Inference, University of Michigan).
+How hotel placement — a hotel's own position and the competitors placed around
+it — shapes clicks and bookings, using Expedia's randomized ordering experiment.
 
-**Research question:** Does Expedia's algorithmic hotel ranking causally increase
-booking and click-through rates relative to a random ordering? Which channel —
-attention (clicks) or conversion (bookings conditional on click) — drives the effect?
+## Research questions
 
-**Identification:** The Expedia Personalized Sort dataset (Kaggle ICDM 2013) contains
-`random_bool`, a randomised indicator that assigns ~40% of searches to receive
-randomly-ordered hotel results rather than Expedia's proprietary algorithm. This
-provides clean causal identification without requiring strong ignorability.
+1. **Own position.** How much does a hotel lose by being shown lower on the page?
+2. **Competitor interference.** Holding a hotel's own position fixed, does it
+   matter which rivals were placed above it (higher-rated, better-reviewed,
+   cheaper)?
+3. **Heterogeneity.** Which hotels depend most on placement (chains vs.
+   independents, star rating, reviews, price)?
 
-**Methods:** ITT via DiM + ANCOVA (Lec 2–5); LATE via IV/Wald estimator (Lec 21–22).
+## Design
 
----
+The Expedia Personalized Sort data (Kaggle / ICDM 2013) records, for each
+search, whether the hotels were shown in Expedia's algorithmic order or in a
+**random order** (`random_bool`).
+
+**Only the random arm is analysed.** Expedia released only searches with at
+least one click and over-sampled searches ending in a booking (Ursu 2018,
+*Marketing Science*, Sec. 3.3). The two arms are therefore differently selected
+samples: search characteristics fixed before results are shown (length of stay,
+booking window, purchase history) differ sharply between arms
+(`results/tables/sampling_check.tex`). Algorithmic and random searches are
+not compared.
+
+Within the random arm, the order of hotels on each page was randomized, so
+comparisons between hotels **within the same search** are causal:
+
+- **Position effects:** outcome on rank, search fixed effects.
+- **Interference:** for each hotel, count the stronger rivals placed above it
+  (`A`). Under random ordering its expectation given the hotel's rank is known
+  (`mu`, hypergeometric), so controlling for `mu` gives a design-based
+  estimate (recentered exposure; Borusyak & Hull 2023; Aronow & Samii 2017).
+- All standard errors are clustered by search.
+
+A randomization check (`randomization_check.tex`) tests that hotel
+characteristics are unrelated to rank within the random arm.
 
 ## Setup
 
 ```bash
-# 1. Python dependencies
 pip install -r requirements.txt
-
-# 2. R dependencies
-Rscript packages.R
 ```
 
 ## Data
 
-Place the raw Kaggle zip at:
-```
-data/raw/expedia-personalized-sort.zip
-```
-Download from: https://www.kaggle.com/c/expedia-personalized-sort/data
-
-The zip and all processed files are gitignored. Only source code is tracked.
+Download `expedia-personalized-sort.zip` from
+https://www.kaggle.com/c/expedia-personalized-sort/data and place it at
+`data/raw/expedia-personalized-sort.zip`. Data files are not tracked.
 
 ## Run
 
 ```bash
-make          # full pipeline: extract → clean → balance → ITT → IV → robustness
-make extract  # unzip train.csv only
-make clean_data  # extract + clean/sample
-make balance  # balance table + Love plot
-make itt      # ITT: DiM + ANCOVA
-make iv       # IV: Wald + iv_robust
-make robustness  # all robustness checks
-make purge    # delete all generated files (keeps raw zip)
+make            # everything
+make checks     # sampling + randomization checks
+make position   # own-position effects
+make interference
+make hetero
 ```
 
 ## Structure
 
 ```
-expedia-causal/
-├── data/
-│   ├── raw/            ← expedia-personalized-sort.zip (gitignored)
-│   └── processed/      ← train_clean.csv, generated (gitignored)
-├── src/
-│   ├── pipeline/
-│   │   ├── extract.py          ← unzips train.csv
-│   │   └── clean_sample.py     ← 14 cleaning rules → 50k search sample
-│   ├── analysis/
-│   │   ├── descriptive.py      ← summary stats, rates by condition
-│   │   └── balance.R           ← SMD table + Love plot
-│   └── causal/
-│       ├── itt_estimator.R     ← DiM + ANCOVA for booking & click
-│       ├── iv_estimator.R      ← Wald IV + iv_robust, first stage F
-│       └── robustness.R        ← placebo, subsamples, same-position, monotonicity
-├── results/
-│   ├── figures/        ← PDFs (gitignored)
-│   ├── tables/         ← CSVs (gitignored)
-│   └── estimates/      ← RDS files (gitignored)
-├── paper/
-│   └── main.tex
-├── Makefile
-├── packages.R
-└── requirements.txt
+src/
+  utils.py                     paths, OLS with HC2 / clustered SEs, LaTeX tables
+  pipeline/extract.py          unzip train.csv
+  pipeline/clean_sample.py     searches.csv (all searches), random_arm.pkl
+  pipeline/build_exposures.py  competitor exposures (A, K, mu)
+  analysis/sampling_check.py   why the arms are not compared
+  analysis/randomization_check.py
+  causal/position_effects.py
+  causal/interference.py
+  causal/heterogeneity.py
+legacy/                        April 2026 class-project version (superseded)
+results/tables/  results/figures/
 ```
 
-## Cleaning Rules (clean_sample.py)
+## Cleaning
 
-| Rule | Description |
-|---|---|
-| 1 | Keep only analysis columns |
-| 2 | Drop if `random_bool` missing |
-| 3 | Drop if `booking_bool` or `click_bool` missing |
-| 4 | Drop if `position` missing or ≤ 0 |
-| 5 | Drop if `price_usd` missing, zero, or negative |
-| 6 | Drop if `prop_starrating` == 0 (unknown) |
-| 7 | Drop if `prop_review_score` missing |
-| 8 | Drop if `prop_location_score1` missing |
-| 9 | Impute visitor purchase history → 0, add `no_purchase_history` flag |
-| 10 | Impute `srch_query_affinity_score` → column median |
-| 11 | Impute `orig_destination_distance` → median, add `dist_missing` flag |
-| 12 | Winsorise `price_usd` at 99th percentile |
-| 13 | Drop searches with no within-search booking variation |
-| 14 | Sample 50,000 searches at random (seed = 571) |
+No observations are dropped on the basis of outcomes, and no hotels are dropped
+from within a search. Missing covariates (unknown star rating, missing review
+score) are flagged and kept. Positions 5, 11, 17 and 23 are reserved slots that
+rarely hold a listing; the analysis uses each hotel's rank among the listed
+hotels.

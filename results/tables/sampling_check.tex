@@ -1,0 +1,28 @@
+\begin{table}[htbp]\centering
+\caption{Search Characteristics by Ranking Arm in the Released Data}
+\label{tab:sampling}
+\begin{tabular}{lccc}
+\toprule
+ & Algorithmic & Random & Std.\ diff. \\
+\midrule
+\multicolumn{4}{l}{\textit{Fixed before results are shown}} \\
+Length of stay (nights) & 2.156 & 2.942 & -0.354 \\
+Booking window (days) & 32.986 & 49.574 & -0.302 \\
+Adults & 1.951 & 2.053 & -0.115 \\
+Children & 0.368 & 0.389 & -0.028 \\
+Rooms & 1.130 & 1.121 & +0.019 \\
+Includes Saturday night & 0.514 & 0.482 & +0.065 \\
+Has purchase history & 0.063 & 0.029 & +0.165 \\
+Domestic search & 0.647 & 0.599 & +0.099 \\
+\midrule
+\multicolumn{4}{l}{\textit{Outcomes}} \\
+Clicks per search & 1.104 & 1.127 & -0.039 \\
+Search ends in a booking & 0.939 & 0.130 & +2.764 \\
+\midrule
+Searches & 277,798 & 121,546 & \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.88\textwidth}\footnotesize\vspace{0.3em}
+\textit{Notes:} One observation per search, all 399{,}344 searches in the released training data. Std.\ diff.\ is the difference in means divided by the pooled standard deviation. Every released search has at least one click. Expedia over-sampled searches that ended in a booking (Ursu 2018), so the two arms are differently selected samples and are not compared in the analysis.
+\end{minipage}
+\end{table}

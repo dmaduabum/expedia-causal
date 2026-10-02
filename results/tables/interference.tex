@@ -1,0 +1,24 @@
+\begin{table}[htbp]\centering
+\caption{Competitor Interference: Effect of Stronger Rivals Placed Above a Hotel}\label{tab:interference}
+\begin{tabular}{lcccc}
+\toprule
+ & (1) Click & (2) Booking & (3) Click (joint) & (4) Booking (joint) \\
+\midrule
+Higher-star rival above & 0.00102*** & -0.00003 & 0.00036** & -0.00005 \\
+ & (0.00015) & (0.00005) & (0.00016) & (0.00005) \\
+Better-reviewed rival above & 0.00019 & -0.00013** & -0.00039** & -0.00015*** \\
+ & (0.00016) & (0.00005) & (0.00017) & (0.00006) \\
+Cheaper rival ($\geq$5\%) above & -0.00147*** & 0.00002 & -0.00119*** & -0.00001 \\
+ & (0.00014) & (0.00004) & (0.00018) & (0.00006) \\
+Dominant rival above (as many stars, cheaper) & -0.00150*** & -0.00003 & -0.00035** & 0.00001 \\
+ & (0.00013) & (0.00004) & (0.00017) & (0.00005) \\
+\midrule
+Mean outcome & 0.0466 & 0.0054 & 0.0466 & 0.0054 \\
+Observations & 2,939,652 & 2,939,652 & 2,939,652 & 2,939,652 \\
+Searches & 121,546 & 121,546 & 121,546 & 121,546 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.92\textwidth}\footnotesize
+\vspace{0.3em}\textit{Notes:} Random arm. In columns (1)--(2) each cell is a separate regression for one rival type; columns (3)--(4) include all rival types jointly. The coefficient is the effect of one stronger rival being placed above (rather than below) the hotel, holding fixed the hotel's own rank and the number of such rivals on the page. All models control for the expected exposure under random ordering, own rank and log rank, own characteristics, and search fixed effects; standard errors clustered by search. $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$.
+\end{minipage}
+\end{table}

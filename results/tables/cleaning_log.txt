@@ -1,39 +1,22 @@
-============================================================
-CLEANING LOG — expedia-causal
-============================================================
+================================================================
+CLEANING LOG - expedia-causal (random-arm design)
+================================================================
 
-Raw rows        :  9,917,530
-Raw searches    :    399,344
+Raw rows                 :    9,917,530
+Raw searches             :      399,344
+  algorithmic (random=0) :      277,798
+  random      (random=1) :      121,546
+Searches with >= 1 click :        1.000  (Expedia released only clicked searches)
 
-Rule 2 (drop missing random_bool)  : -       0 rows
-Rule 3 (drop missing outcomes)     : -       0 rows
-Rule 4 (drop bad position)         : -       0 rows
-Rule 5 (drop bad price_usd)        : -      54 rows
-Rule 6 (drop unknown star rating)  : - 337,794 rows
-Rule 7 (drop missing review score) : -  12,056 rows
-Rule 8 (drop missing location sc1) : -       0 rows
-Rule 9 (impute visitor history)    : 9,078,650 rows flagged as no_purchase_history
-Rule 10 (impute affinity score)    : filled with median=-20.499
-Rule 11 (impute distance)          : 3,105,919 rows flagged as dist_missing
-Rule 12 (winsorise price_usd)      : capped at $599 (was $19726328)
-Rule 13 (drop no-variation srch)   : -128,512 searches
+Random-arm rows          :    2,939,652
+Random-arm searches      :      121,546
+  rows in reserved slots :        7,640 (positions [5, 11, 17, 23]; kept, flagged)
+  unknown star rating    :      104,224 (kept, flagged)
+  missing review score   :        5,883 (kept, flagged)
+  click rate (pair)      :       0.0466
+  booking rate (pair)    :       0.0054
+  searches with booking  :       0.1304
 
-After cleaning  :  6,607,366 rows
-Searches left   :    270,728
-
-Sampled searches:     50,000
-Final rows      :  1,221,840
-
-── Booking rate by condition ──
-             booking_bool  click_bool
-random_bool                          
-0                  0.0408      0.0449
-1                  0.0427      0.0472
-
-── random_bool distribution (searches) ──
-random_bool
-0    47064
-1     2936
-
-Saved to: /Users/dili/Documents/causal-inference/expedia-causal/data/processed/train_clean.csv
-============================================================
+Saved: /sessions/rcw-012akwcmxjnrlebz7tayyfpg/mnt/expedia-causal/data/processed/searches.csv
+Saved: /sessions/rcw-012akwcmxjnrlebz7tayyfpg/mnt/expedia-causal/data/processed/random_arm.pkl
+================================================================

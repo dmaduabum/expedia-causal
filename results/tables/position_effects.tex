@@ -1,0 +1,20 @@
+\begin{table}[htbp]\centering
+\caption{Effect of Own Position on Clicks and Bookings (Random Arm)}\label{tab:position}
+\begin{tabular}{lccc}
+\toprule
+ & (1) Click & (2) Booking & (3) Booking | click \\
+\midrule
+Rank (per 10 positions) & -0.0219*** & -0.0032*** & -0.0004 \\
+ & (0.0001) & (0.0001) & (0.0022) \\
+Log rank & -0.0279*** & -0.0040*** & 0.0003 \\
+ & (0.0002) & (0.0001) & (0.0019) \\
+\midrule
+Mean outcome & 0.0466 & 0.0054 & 0.1157 \\
+Observations & 2,939,652 & 2,939,652 & 136,956 \\
+Searches & 121,546 & 121,546 & 121,546 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.92\textwidth}\footnotesize
+\vspace{0.3em}\textit{Notes:} Each cell is a separate regression with search fixed effects; standard errors clustered by search. Rank is the hotel's order among listed hotels (1 = top). Column (3) conditions on a click, an outcome of position, and is descriptive. $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$.
+\end{minipage}
+\end{table}
